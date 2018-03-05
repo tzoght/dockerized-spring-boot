@@ -1,6 +1,8 @@
 #docker-spring-boot
 
-### Node:
+
+
+### Note:
 Make sure that docker is installed and running on your host
 
 ### To build a docker image
@@ -30,7 +32,7 @@ Now you can run the docker container locally:
 $ docker run -t -p5000:5000 a39610ac70f5
 
 ```
-then go to [http://localhost:5000/health]()
+then go to [http://localhost:5000/health](http://localhost:5000/health)
 
 To stop all docker containers:
 
@@ -46,7 +48,7 @@ $ docker rmi $(docker images -q -a)
 ```
 
 
-### To push a docker image to docker hub (https://hub.docker.com)
+### To push a docker image to docker hub [https://hub.docker.com](Docker Hub)
 
 Assuming that you have a repository named containerRepo (see build.gradle)
 

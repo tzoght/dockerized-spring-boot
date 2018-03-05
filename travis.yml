@@ -1,0 +1,13 @@
+sudo: required
+
+language: java
+
+services:
+  - docker
+
+before_install:
+- ./gradlew buildImage
+
+
+script:
+- docker images
