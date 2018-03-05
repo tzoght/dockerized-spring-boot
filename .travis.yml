@@ -1,12 +1,11 @@
-sudo: required
-
 language: java
-
-services:
-  - docker
+jdk:
+  - oraclejdk8
+  - openjdk8
 
 before_install:
-- ./gradlew buildImage
+ - chmod +x ./gradlew
 
 script:
-- docker images
+  - ./gradlew buildImage
+  - docker images
