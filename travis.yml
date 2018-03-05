@@ -8,6 +8,5 @@ services:
 before_install:
 - ./gradlew buildImage
 
-
 script:
 - docker images
