@@ -1,33 +1,37 @@
+buildscript {
+    ext {
+        containerRepo = 'tzoght/spring-boot-sample'
+    }
+    repositories {
+        mavenCentral()
+    }
+}
+
 plugins {
     id 'war'
     id 'org.springframework.boot' version '1.5.10.RELEASE'
     id 'com.bmuschko.docker-remote-api' version '3.2.3'
 }
 
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-version = '1.0.0'
+version = '2.0.0'
 
-repositories {
-    jcenter()
+docker {
+    registryCredentials {
+        username = getConfigurationProperty('DOCKER_HUB_USERNAME', 'docker.username')
+        password = getConfigurationProperty('DOCKER_HUB_PASSWORD', 'docker.password')
+    }
 }
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
 }
-
-docker {
-    registryCredentials {
-        username = getConfigurationProperty('DOCKER_USERNAME', 'docker.username')
-        password = getConfigurationProperty('DOCKER_PASSWORD', 'docker.password')
-        email = getConfigurationProperty('DOCKER_EMAIL', 'docker.email')
-    }
-}
-
-import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
-import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
-import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 
 task createDockerfile(type: Dockerfile) {
     group = 'Docker'
@@ -54,7 +58,7 @@ task buildImage(type: DockerBuildImage) {
     group = 'Docker'
     dependsOn createDockerfile
     inputDir = createDockerfile.destFile.parentFile
-    tag = "tzoght/c:$war.version"
+    tag = "$containerRepo:$war.version"
 }
 
 task pushImage(type: DockerPushImage) {
